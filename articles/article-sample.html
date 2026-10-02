@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample article | Project Title</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<script src="../js/theme.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body data-root="../">
+<header id="site-header"></header>
+<main>
+  <div class="article-head">
+    <h1>Sample article title</h1>
+    <p class="article-meta">Author Name &middot; 2026<br>
+      DOI: <a href="https://doi.org/10.0000/example">10.0000/example</a><br>
+      <a href="../pdf/sample-article.pdf">Download PDF</a> &middot; <a href="../map.html">See the sites on the map</a></p>
+  </div>
+  <article class="body">
+    <h2>Introduction</h2>
+    <p>Write the article text here. Paragraphs go inside p tags. A footnote marker looks like this.<sup id="ref1"><a href="#fn1">1</a></sup></p>
+
+    <figure id="fig1">
+      <img src="../images/articles/figure-1.jpg" alt="Describe the figure for readers who cannot see it">
+      <figcaption><strong>Figure 1.</strong> Caption text. Source: Sanborn Map Company, 1902, Library of Congress.</figcaption>
+    </figure>
+
+    <p>More text. You can refer to Figure 1 with a link: <a href="#fig1">Figure 1</a>.</p>
+
+    <h2>Notes</h2>
+    <ol class="footnotes">
+      <li id="fn1">Footnote text. <a href="#ref1" aria-label="Back to text">Back</a></li>
+    </ol>
+
+    <h2>References</h2>
+    <ul class="references">
+      <li>Author, A. 2020. <em>Title of work</em>. Publisher. <a href="https://doi.org/10.0000/example">https://doi.org/10.0000/example</a></li>
+    </ul>
+  </article>
+</main>
+<footer id="site-footer"></footer>
+<script src="../js/site.js"></script>
+</body>
+</html>
