@@ -1,0 +1,72 @@
+/* ==========================================================
+   ROTATING MAP BANNER  (methods page only)
+
+   This file is loaded only by methods.html, so nothing here
+   affects the rest of the site.
+
+   Width note: the scans in maps/ are between about 1090 and
+   1690 pixels wide. A banner wider than the scan would have to
+   enlarge it to fill the frame, which is what makes a scan look
+   pixelated. Capping the frame at the site's own content width
+   (--wide, 68rem) keeps every scan at or below its natural size
+   and lines the banner up with the header, text and footer.
+
+   To run the banner edge to edge instead, delete the max-width
+   line below - but expect soft, blocky scans on wide monitors
+   until the images are rescanned at a higher resolution.
+   ========================================================== */
+#map-banner {
+  position: relative;
+  overflow: hidden;                      /* crops the zoomed scan */
+  height: clamp(9rem, 19vw, 17rem);      /* <- the wide-and-narrow proportion */
+  max-width: var(--wide);                /* <- see the width note above */
+  margin: 0 auto;
+  background: #1b1a18;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Two stacked layers; one fades out while the other fades in.
+   The pan and the fade are both drawn by js/methods-banner.js, so
+   there is deliberately no CSS transition here - a transition would
+   fight the script, and some machines switch transitions off. */
+.mb-layer {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: none;
+  will-change: transform, opacity;       /* keeps the pan on the GPU */
+}
+
+/* The scrim is static and sits above the scans but below the labels, so
+   the corner never darkens twice during a cross-fade. */
+.mb-scrim {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 55%;
+  background: linear-gradient(to top, rgba(0,0,0,0.62), rgba(0,0,0,0));
+  pointer-events: none;
+}
+
+/* Two labels, one per scan. Their opacity is driven by the script on the
+   same curve as the image, so a label fades with the map it describes -
+   hence no transition here. */
+.mb-caption {
+  position: absolute; left: 0; right: 0; bottom: 0; margin: 0;
+  padding: 0 1.25rem 0.7rem;
+  font-family: var(--sans); font-size: 0.78rem; line-height: 1.35;
+  color: rgba(255,255,255,0.9);
+  opacity: 0; transition: none;
+  pointer-events: none;
+}
+
+/* If the workbook cannot be read, collapse the frame rather than
+   leaving an empty dark band at the top of the page. */
+#map-banner.mb-empty { display: none; }
+
+/* The heading that follows the banner sits a little tighter to it. */
+.methods-page main { padding-top: 2.25rem; }
+
+@media (max-width: 40rem) {
+  #map-banner { height: clamp(7.5rem, 34vw, 11rem); }
+  .mb-caption { font-size: 0.72rem; padding: 0 1rem 0.6rem; }
+}
