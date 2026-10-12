@@ -8,24 +8,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
 <script src="js/theme.js"></script>
-<link rel="stylesheet" href="css/style.css">
+<!-- Vendor stylesheets come first so that css/style.css can override them.
+     The other way round, Leaflet's own rules win every tie on equal
+     specificity and the site's popup styling is quietly ignored. -->
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="vendor/leaflet-markercluster/MarkerCluster.css">
+<link rel="stylesheet" href="vendor/leaflet-markercluster/MarkerCluster.Default.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body class="map-page" data-root="">
 <header id="site-header"></header>
 <main>
   <div class="map-intro">
     <h1>MGI Atlas</h1>
-    <p>Select a point to see the historical map sheets for that site.</p>
+    <p>Points represent the accumulated impact of coal gas energy production across US cities.</p>
   </div>
-  <div class="map-tools">
-    <label for="city-select">Zoom to</label>
-    <select id="city-select"><option value="">All cities</option></select>
+  <div class="map-tools" id="city-bar" role="group" aria-label="Zoom to a city"></div>
+  <div class="map-layout">
+    <div id="map" class="is-loading" role="application" aria-label="Map of sites"></div>
+    <section id="details" aria-live="polite">
+      <p class="note">Loading sites&hellip;</p>
+    </section>
   </div>
-  <div id="map" role="application" aria-label="Map of sites"></div>
-  <section id="details" aria-live="polite">
-    <p class="note">Select a point on the map to see its sheets here.</p>
-  </section>
   <div id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title">
     <div class="viewer-bar">
       <span class="viewer-heading"><span id="viewer-title"></span> <span id="viewer-count" class="viewer-count"></span></span>
@@ -34,6 +38,7 @@
         <button id="viewer-prev" class="viewer-nav" type="button" aria-label="Previous scan">&larr; Previous</button>
         <button id="viewer-next" class="viewer-nav" type="button" aria-label="Next scan">Next &rarr;</button>
         <a id="viewer-original" href="#" target="_blank" rel="noopener">Open original</a>
+        <a id="viewer-original-2" href="#" target="_blank" rel="noopener" hidden>Open right</a>
         <button id="viewer-close" type="button">Close</button>
       </span>
     </div>
@@ -43,6 +48,7 @@
 <footer id="site-footer"></footer>
 <script src="js/site.js"></script>
 <script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/leaflet-markercluster/leaflet.markercluster.js"></script>
 <script src="vendor/xlsx.full.min.js"></script>
 <script src="js/map.js"></script>
 </body>

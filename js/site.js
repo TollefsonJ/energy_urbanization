@@ -9,7 +9,7 @@ const SITE = {
   // Menu items: label shown, and the page it links to
   menu: [
     /* { label: "Home",        href: "index.html" }, */
-    { label: "MGI Atlas", href: "map.html" },
+    { label: "View Atlas", href: "map.html" },
    /*  { label: "Methods",    href: "methods.html" }, */
     { label: "Publications", href: "publications.html" },
    /* { label: "People",      href: "people.html" },*/
