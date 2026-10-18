@@ -134,6 +134,12 @@ sup a { text-decoration: none; font-family: var(--sans); font-size: 0.8em; }
    than reading as a lesser heading than Publications or Contact. */
 .map-intro h1 { margin-bottom: 0.4rem; }
 .map-intro p { margin: 0; max-width: var(--measure); color: var(--muted); }
+/* The tally under the intro. Its numbers borrow the city chip's pill shape,
+   border and type size so the two read as one family, with tighter vertical
+   padding so they sit on a line of text without opening up the line height.
+   They are labels, not controls - see buildTally in js/map.js. */
+.map-tally { margin: 0.55rem 0 0; max-width: var(--measure); color: var(--muted); font-family: var(--sans); font-size: 0.92rem; }
+.tally-num { display: inline-block; font-size: 0.88rem; padding: 0.05rem 0.55rem; border: 1px solid var(--rule); border-radius: 999px; background: var(--paper); color: var(--ink); }
 /* One chip per city. Lit chips show which cities are on the map, and more
    than one can be lit where cities share a view; clicking any chip, lit or
    not, reframes the map on it. */

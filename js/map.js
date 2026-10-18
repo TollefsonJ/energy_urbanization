@@ -94,7 +94,12 @@ async function loadData() {
     if (!wb.Sheets[name]) throw new Error('The workbook is missing a sheet named "' + name + '".');
     return XLSX.utils.sheet_to_json(wb.Sheets[name], { defval: "" });
   };
-  return { points: table("Points"), maps: table("Maps"), links: table("Links") };
+  /* Total Maps is optional: it only feeds the tally line, so an older
+     workbook without it should still draw the map. */
+  const optional = name =>
+    wb.Sheets[name] ? XLSX.utils.sheet_to_json(wb.Sheets[name], { defval: "" }) : [];
+  return { points: table("Points"), maps: table("Maps"), links: table("Links"),
+           totals: optional("Total Maps") };
 }
 
 function scanUrl(m) {
@@ -163,6 +168,7 @@ function init(data) {
 
   const cities = [...new Set(state.points.map(p => p.city))].sort();
   buildCityBar(cities);
+  buildTally(cities, data.totals);
 
   // Open on the city named in CONFIG and light up its chip.
   // An unrecognised name falls back to all cities.
@@ -191,6 +197,35 @@ function init(data) {
    the buttons depend on, so a close call between two neighbouring cities can
    at worst light the wrong chip. Every chip still goes exactly where it
    says. */
+/* "N sites identified across N regions, the result of analyzing N map
+   documents."
+
+   Sites and regions are counted from the points actually drawn, so hiding a
+   site lowers the count rather than claiming something a visitor cannot find.
+   The document total is the sum of n_maps on the Total Maps sheet, which
+   covers whole volumes that were read to find these sites, not just the
+   sheets kept in maps/ - so it is much larger than the Maps sheet, by design.
+
+   The numbers are spans, not buttons: they echo the city chips below but
+   nothing happens when you click them. */
+function buildTally(cities, totals) {
+  const el = document.getElementById("map-tally");
+  if (!el) return;
+  const docs = (totals || []).reduce((sum, row) => {
+    const n = Number(String(row.n_maps == null ? "" : row.n_maps).replace(/[, ]/g, ""));
+    return sum + (isFinite(n) ? n : 0);
+  }, 0);
+  const num = n => `<span class="tally-num">${n.toLocaleString()}</span>`;
+  const plural = (n, word) => n === 1 ? word : word + "s";
+  const parts = [
+    `${num(state.points.length)} ${plural(state.points.length, "site")} identified`,
+    `across ${num(cities.length)} ${plural(cities.length, "region")}`
+  ];
+  el.innerHTML = docs
+    ? `${parts.join(" ")}, the result of analyzing ${num(docs)} map ${plural(docs, "document")}.`
+    : `${parts.join(" ")}.`;
+}
+
 function buildCityBar(cities) {
   const bar = document.getElementById("city-bar");
   cities.forEach(city => {
