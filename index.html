@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home | Energy and Urbanization</title>
+<title>Home | Energetic Urbanization</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -20,8 +20,10 @@
     <img src="images/gasworks.jpg" alt="">
   </figure>
   <section class="home-hero">
-    <h1>Energy and Urbanization</h1>
+    <h1>Energetic Urbanization</h1>
     <p class="lede"> Iterative processes of energy transformation and industrial change reshape the social and spatial organization of cities. Understanding how cities are structured today requires a longer view of this energetic and environmental history.</p>
+    <!-- Filled by js/tally.js, which reads the counts straight from the workbook. -->
+    <p class="map-tally" id="map-tally" data-workbook="data/atlas.xlsx"></p>
     <a class="button" href="map.html">Explore the atlas</a>
   </section>
   <section class="text">
@@ -36,5 +38,7 @@ At the turn of the 20th century, US cities were densifying and industrializing. 
 </main>
 <footer id="site-footer"></footer>
 <script src="js/site.js"></script>
+<script src="vendor/xlsx.full.min.js"></script>
+<script src="js/tally.js"></script>
 </body>
 </html>

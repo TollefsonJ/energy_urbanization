@@ -104,6 +104,11 @@ h3 { font-size: 1.05rem; margin: 1.75rem 0 0.4rem; }
 .home-page .home-hero { max-width: var(--measure); text-align: center; }
 .home-page .home-hero h1 { margin-left: auto; margin-right: auto; }
 .home-page .home-hero .lede { text-align: left; }   /* centered column, left-justified lines */
+/* The tally sits between the lede and the button on the front page. It is
+   centred like the rest of the hero rather than left-justified like the
+   lede, so the chips line up on the page's own axis above the button. */
+.home-page .home-hero .lede { margin-bottom: 0.9rem; }
+.home-page .home-hero .map-tally { margin: 0 auto 1.6rem; text-align: center; }
 
 /* ---------- Lists: publications, articles, people ---------- */
 .entry-list { list-style: none; padding: 0; margin: 0; max-width: var(--measure); }

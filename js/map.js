@@ -152,7 +152,7 @@ function init(data) {
     state.viewByPoint[pid] = entries;
   });
 
-  state.points = data.points.filter(p => String(p.status).toLowerCase() === "show" && p.lat !== "" && p.lon !== "");
+  state.points = visibleSites(data.points);        // same rule the tally counts by, in js/tally.js
 
   // Points that share exactly the same coordinates would sit on top of each other,
   // so the display position of later ones is nudged about 10 metres. Data is not changed.
@@ -168,7 +168,7 @@ function init(data) {
 
   const cities = [...new Set(state.points.map(p => p.city))].sort();
   buildCityBar(cities);
-  buildTally(cities, data.totals);
+  renderTally(data.points, data.totals);
 
   // Open on the city named in CONFIG and light up its chip.
   // An unrecognised name falls back to all cities.
@@ -197,35 +197,6 @@ function init(data) {
    the buttons depend on, so a close call between two neighbouring cities can
    at worst light the wrong chip. Every chip still goes exactly where it
    says. */
-/* "N sites identified across N regions, the result of analyzing N map
-   documents."
-
-   Sites and regions are counted from the points actually drawn, so hiding a
-   site lowers the count rather than claiming something a visitor cannot find.
-   The document total is the sum of n_maps on the Total Maps sheet, which
-   covers whole volumes that were read to find these sites, not just the
-   sheets kept in maps/ - so it is much larger than the Maps sheet, by design.
-
-   The numbers are spans, not buttons: they echo the city chips below but
-   nothing happens when you click them. */
-function buildTally(cities, totals) {
-  const el = document.getElementById("map-tally");
-  if (!el) return;
-  const docs = (totals || []).reduce((sum, row) => {
-    const n = Number(String(row.n_maps == null ? "" : row.n_maps).replace(/[, ]/g, ""));
-    return sum + (isFinite(n) ? n : 0);
-  }, 0);
-  const num = n => `<span class="tally-num">${n.toLocaleString()}</span>`;
-  const plural = (n, word) => n === 1 ? word : word + "s";
-  const parts = [
-    `${num(state.points.length)} ${plural(state.points.length, "site")} identified`,
-    `across ${num(cities.length)} ${plural(cities.length, "region")}`
-  ];
-  el.innerHTML = docs
-    ? `${parts.join(" ")}, the result of analyzing ${num(docs)} map ${plural(docs, "document")}.`
-    : `${parts.join(" ")}.`;
-}
-
 function buildCityBar(cities) {
   const bar = document.getElementById("city-bar");
   cities.forEach(city => {
